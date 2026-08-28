@@ -43,7 +43,9 @@ const App: React.FC = () => {
     );
   }, []);
   React.useEffect(() => {
-    document.body.style.backgroundColor = theme ? '#101827' : '#DDDDDD';
+    document.body.style.background = theme
+      ? '#101827'
+      : 'linear-gradient(180deg, #e0f2fe 0%, #bae6fd 60%, #93c5fd 100%)';
   }, [theme]);
   return (
     <Routes>

@@ -58,8 +58,8 @@ const Modal: React.FC<IModal> = ({ isVisible, setVisible, theme }) => {
           <button
             type='submit'
             onClick={() => goHandler(search)}
-            className='dark:bg-[#1956db] dark:hover:bg-[#0e48c5] bg-gray-200 hover:bg-gray-300
-            transition-all focus:ring-2 focus:ring-gray-400 font-medium rounded focus:outline-none self-start px-2.5 text-lg'
+            className='dark:bg-[#1956db] dark:hover:bg-[#0e48c5] bg-sky-500 hover:bg-sky-600 text-white
+            transition-all focus:ring-2 focus:ring-sky-300 font-medium rounded focus:outline-none self-start px-2.5 text-lg'
           >
             Go!
           </button>
