@@ -11,8 +11,8 @@ import { mockWeatherApi } from './fixtures';
 // deterministic regardless of the sandbox's outbound network access.
 // ---------------------------------------------------------------------------
 
-const SKY_500 = 'rgb(14, 165, 233)';
-const SKY_600 = 'rgb(2, 132, 199)';
+const SKY_700 = 'rgb(3, 105, 161)';
+const SKY_800 = 'rgb(7, 89, 133)';
 const DARK_BG = 'rgb(16, 24, 39)'; // #101827
 
 const GRADIENT_STOPS_HEX = ['#e0f2fe', '#bae6fd', '#93c5fd'];
@@ -101,31 +101,31 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
   }) => {
     await page.goto('/');
     const getStarted = page.getByRole('button', { name: 'Get started' });
-    await expect(getStarted).toHaveClass(/bg-sky-500/);
+    await expect(getStarted).toHaveClass(/bg-sky-700/);
     await expect(getStarted).not.toHaveClass(/bg-gray-200/);
     const beforeHover = await getStarted.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
-    expect(beforeHover).toBe(SKY_500);
+    expect(beforeHover).toBe(SKY_700);
     await getStarted.hover();
     await page.waitForTimeout(200);
     const afterHover = await getStarted.evaluate(
       (el) => getComputedStyle(el).backgroundColor
     );
-    expect(afterHover).toBe(SKY_600);
+    expect(afterHover).toBe(SKY_800);
     expect(afterHover).not.toBe(beforeHover);
 
     await getStarted.click();
     const modalGo = page.getByRole('button', { name: 'Go!' });
     await expect(modalGo).toBeVisible();
-    await expect(modalGo).toHaveClass(/bg-sky-500/);
+    await expect(modalGo).toHaveClass(/bg-sky-700/);
     await expect(modalGo).not.toHaveClass(/bg-gray-200/);
     const modalBefore = await modalGo.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(modalBefore).toBe(SKY_500);
+    expect(modalBefore).toBe(SKY_700);
     await modalGo.hover();
     await page.waitForTimeout(200);
     const modalAfter = await modalGo.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(modalAfter).toBe(SKY_600);
+    expect(modalAfter).toBe(SKY_800);
     await page.screenshot({ path: 'test-results/artifacts/d45adc16-modal.png' });
   });
 
@@ -136,10 +136,10 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
     await page.waitForTimeout(800);
     const saveBtn = page.locator('button', { hasText: /saved/i });
     await expect(saveBtn).toBeVisible();
-    await expect(saveBtn).toHaveClass(/bg-sky-500/);
+    await expect(saveBtn).toHaveClass(/bg-sky-700/);
     await expect(saveBtn).not.toHaveClass(/bg-gray-200/);
     const saveBg = await saveBtn.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(saveBg).toBe(SKY_500);
+    expect(saveBg).toBe(SKY_700);
     // Click to add it to saved, then verify the Saved page's Cart controls.
     await saveBtn.click();
     await page.waitForTimeout(300);
@@ -150,14 +150,14 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
     const cartSaveBtn = page.locator('div.flex.justify-between > button');
     await expect(moreInfo).toBeVisible();
     await expect(cartSaveBtn).toBeVisible();
-    await expect(moreInfo).toHaveClass(/bg-sky-500/);
+    await expect(moreInfo).toHaveClass(/bg-sky-700/);
     await expect(moreInfo).not.toHaveClass(/bg-gray-200/);
-    await expect(cartSaveBtn).toHaveClass(/bg-sky-500/);
+    await expect(cartSaveBtn).toHaveClass(/bg-sky-700/);
     await expect(cartSaveBtn).not.toHaveClass(/bg-gray-200/);
     const moreInfoBg = await moreInfo.evaluate((el) => getComputedStyle(el).backgroundColor);
     const cartBtnBg = await cartSaveBtn.evaluate((el) => getComputedStyle(el).backgroundColor);
-    expect(moreInfoBg).toBe(SKY_500);
-    expect(cartBtnBg).toBe(SKY_500);
+    expect(moreInfoBg).toBe(SKY_700);
+    expect(cartBtnBg).toBe(SKY_700);
     await page.screenshot({ path: 'test-results/artifacts/e994dcca-saved-cart.png' });
   });
 
@@ -183,7 +183,7 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
     const saveBtnTextColor = await saveBtn.evaluate((el) => getComputedStyle(el).color);
     const saveBtnBg = await saveBtn.evaluate((el) => getComputedStyle(el).backgroundColor);
     const btnContrast = contrastRatio(saveBtnTextColor, saveBtnBg);
-    console.log(`[contrast] "Add to saved" button label (white) vs sky-500 fill: ${btnContrast.toFixed(2)}:1`);
+    console.log(`[contrast] "Add to saved" button label (white) vs sky-700 fill: ${btnContrast.toFixed(2)}:1`);
     await saveBtn.screenshot({ path: 'test-results/artifacts/fa66ff22-save-button.png' });
 
     // Contact page text against the gradient background too.
@@ -200,7 +200,7 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
     expect.soft(cityContrast, 'heading text vs gradient background').toBeGreaterThanOrEqual(4.5);
     expect.soft(tempContrast, 'large temperature text vs gradient background').toBeGreaterThanOrEqual(3);
     expect.soft(contactContrast, 'Contact page text vs gradient background').toBeGreaterThanOrEqual(4.5);
-    expect.soft(btnContrast, 'white button label vs sky-500 fill (WCAG AA normal-text minimum)').toBeGreaterThanOrEqual(4.5);
+    expect.soft(btnContrast, 'white button label vs sky-700 fill (WCAG AA normal-text minimum)').toBeGreaterThanOrEqual(4.5);
   });
 
   test('ebbd8378 – same accent color used consistently across Header/Home/Saved-Cart/Modal', async ({
@@ -231,7 +231,7 @@ test.describe('bacc87c5 – light mode colors are cheerful', () => {
     const cartBtnBg = await cartBtn.evaluate((el) => getComputedStyle(el).backgroundColor);
 
     expect(new Set([headerBg, homeBg, modalBg, cartMoreInfoBg, cartBtnBg]).size).toBe(1);
-    expect(headerBg).toBe(SKY_500);
+    expect(headerBg).toBe(SKY_700);
   });
 
   test('7882aab8 – toggling theme repeatedly still works with no console errors, all 3 routes render in both modes', async ({
