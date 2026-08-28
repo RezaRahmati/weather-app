@@ -93,8 +93,8 @@ export const Header: React.FC<IHeader> = ({ theme, setTheme }) => {
               className='dark:text-white
             hidden
             sm:block
-            bg-sky-500
-            hover:bg-sky-600
+            bg-sky-700
+            hover:bg-sky-800
             text-white
             dark:hover:bg-[#0e48c5]
             dark:bg-[#1956db]

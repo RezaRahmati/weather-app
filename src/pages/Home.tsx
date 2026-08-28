@@ -79,7 +79,7 @@ const Home: React.FC<IHome> = ({ theme }) => {
         </ul>
         <button
           className='
-            dark:text-white bg-sky-500 hover:bg-sky-600 text-white dark:hover:bg-[#0e48c5]
+            dark:text-white bg-sky-700 hover:bg-sky-800 text-white dark:hover:bg-[#0e48c5]
             dark:bg-[#1956db] transition-all focus:ring-2 focus:ring-sky-300 font-medium rounded px-3 lg:px-4 py-1.5 lg:py-2 focus:outline-none ml-2'
           onClick={() => {
             dispatch(addWeather(weather?.name as string));
