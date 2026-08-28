@@ -5,6 +5,7 @@ import { getWeather } from '../async/getWeather';
 import { debounce } from 'lodash';
 import getIcon from '../helpers/getIcon';
 import getTempIcon from '../helpers/getTemp';
+import { convertTemp } from '../helpers/convertTemp';
 import { addWeather } from '../store/slices/savedSlice';
 import { IsSaved } from '../components/IsSaved';
 
@@ -17,6 +18,7 @@ const Home: React.FC<IHome> = ({ theme }) => {
   const dispatch = useAppDispatch();
   const { weather } = useAppSelector((state) => state.weather);
   const { savedWeather } = useAppSelector((state) => state.saved);
+  const { unit } = useAppSelector((state) => state.unit);
   const findWeather = savedWeather.find((el) => {
     if (el.name === (weather?.name as string)) {
       return true;
@@ -52,7 +54,8 @@ const Home: React.FC<IHome> = ({ theme }) => {
             )}
             alt=''
           />
-          {Math.ceil(weather?.main.temp ? weather.main.temp : 0)}°C
+          {convertTemp(weather?.main.temp ? weather.main.temp : 0, unit)}°
+          {unit}
         </span>
         <span className='mb-5 font-semibold dark:text-white text-gray-700'>
           <span className='text-2xl '>{weather?.name}, </span>
@@ -62,10 +65,11 @@ const Home: React.FC<IHome> = ({ theme }) => {
           <li className='sm:after:content-["•"] sm:after:mx-3 after:opacity-70'>
             <span className='font-bold'>Feels like: </span>
             <span>
-              {Math.ceil(
-                weather?.main.feels_like ? weather?.main.feels_like : 0
+              {convertTemp(
+                weather?.main.feels_like ? weather?.main.feels_like : 0,
+                unit
               )}
-              °C
+              °{unit}
             </span>
           </li>
           <li className='sm:after:content-["•"] sm:after:mx-3 after:opacity-70'>

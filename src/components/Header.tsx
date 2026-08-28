@@ -8,6 +8,8 @@ import Modal from './Modal';
 import { NavLink, useLocation } from 'react-router-dom';
 import { RiContactsFill } from 'react-icons/ri';
 import { CustomLink } from './CustomLink';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { setUnit } from '../store/slices/unitSlice';
 
 type IHeader = {
   theme: boolean;
@@ -18,6 +20,8 @@ export const Header: React.FC<IHeader> = ({ theme, setTheme }) => {
   const [burger, setBurger] = React.useState<boolean>(false);
   const [isVisible, setVisible] = React.useState<boolean>(false);
   const location = useLocation();
+  const dispatch = useAppDispatch();
+  const { unit } = useAppSelector((state) => state.unit);
   const getPath = () => {
     if (location.pathname === '/') {
       return 'Home';
@@ -88,6 +92,39 @@ export const Header: React.FC<IHeader> = ({ theme, setTheme }) => {
                   />
                 )}
               </button>
+              <div
+                role='group'
+                aria-label='Temperature unit toggle'
+                data-testid='unit-toggle'
+                className='flex items-center rounded overflow-hidden border border-gray-400 dark:border-gray-600 text-xs font-semibold'
+              >
+                <button
+                  type='button'
+                  aria-pressed={unit === 'C'}
+                  data-testid='unit-toggle-c'
+                  className={`px-2 py-1 transition-all ${
+                    unit === 'C'
+                      ? 'bg-sky-700 text-white'
+                      : 'text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                  }`}
+                  onClick={() => dispatch(setUnit('C'))}
+                >
+                  °C
+                </button>
+                <button
+                  type='button'
+                  aria-pressed={unit === 'F'}
+                  data-testid='unit-toggle-f'
+                  className={`px-2 py-1 transition-all ${
+                    unit === 'F'
+                      ? 'bg-sky-700 text-white'
+                      : 'text-gray-700 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                  }`}
+                  onClick={() => dispatch(setUnit('F'))}
+                >
+                  °F
+                </button>
+              </div>
             </div>
             <button
               className='dark:text-white
