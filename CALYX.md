@@ -17,3 +17,16 @@
 - Theme: `App.tsx` holds a boolean `theme` in state and toggles Tailwind's `dark`
   class per-page (dark mode via `darkMode: 'class'` in tailwind.config.js). Light
   mode is the default (no `dark:` prefix) styles.
+- Visual verification: `playwright` is not a project dependency; it's not preinstalled
+  either. `npm install --no-save playwright` + `npx playwright install chromium --with-deps`
+  works in this sandbox (no docker needed) — takes ~1-2 min to download the browser.
+  A reusable screenshot helper lives at `.calyx/scripts/capture_theme_screenshots.mjs`
+  (viewport 1000x700, well under the 1500px screenshot-viewing limit) — run it with
+  `node .calyx/scripts/capture_theme_screenshots.mjs http://localhost:3000` while the
+  dev server is up; it saves `/tmp/light-home.png` and `/tmp/dark-home.png` and clicks
+  the theme toggle via `.flex.space-x-3 button:nth-child(3)` in the Header (order:
+  github, discord, theme-toggle icon buttons).
+- The app calls the public OpenWeather API from the browser; in a sandboxed run with
+  no outbound network/geolocation you'll see "Error: couldn't find weather" on Home —
+  expected, unrelated to styling/theme work, and does not block visual verification of
+  colors/layout.
