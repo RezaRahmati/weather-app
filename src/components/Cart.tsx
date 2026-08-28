@@ -54,8 +54,8 @@ const Cart: React.FC<ICart> = ({ name, index }) => {
       </span>
       <div className='flex justify-between'>
         <a
-          className='dark:text-white bg-gray-200 hover:bg-gray-300 text-gray-700 dark:hover:bg-[#0e48c5]
-            dark:bg-[#1956db] transition-all focus:ring-2 focus:ring-gray-400 font-medium rounded px-3 lg:px-4 py-1.5 lg:py-2 focus:outline-none text-sm flex items-center'
+          className='dark:text-white bg-sky-700 hover:bg-sky-800 text-white dark:hover:bg-[#0e48c5]
+            dark:bg-[#1956db] transition-all focus:ring-2 focus:ring-sky-300 font-medium rounded px-3 lg:px-4 py-1.5 lg:py-2 focus:outline-none text-sm flex items-center'
           target='_blank'
           href={`https://www.google.se/search?q=weather+${weather?.name}`}
         >
@@ -65,8 +65,8 @@ const Cart: React.FC<ICart> = ({ name, index }) => {
 
         <button
           className='
-            dark:text-white bg-gray-200 hover:bg-gray-300 text-gray-700 dark:hover:bg-[#0e48c5]
-            dark:bg-[#1956db] transition-all focus:ring-2 focus:ring-gray-400 rounded px-3 lg:px-4 py-1.5 lg:py-2 focus:outline-none text-sm'
+            dark:text-white bg-sky-700 hover:bg-sky-800 text-white dark:hover:bg-[#0e48c5]
+            dark:bg-[#1956db] transition-all focus:ring-2 focus:ring-sky-300 rounded px-3 lg:px-4 py-1.5 lg:py-2 focus:outline-none text-sm'
           onClick={() => {
             dispatch(addWeather(weather?.name as string));
           }}
