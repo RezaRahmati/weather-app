@@ -30,3 +30,10 @@
   no outbound network/geolocation you'll see "Error: couldn't find weather" on Home —
   expected, unrelated to styling/theme work, and does not block visual verification of
   colors/layout.
+- Gotcha for QA/Playwright automation: `App.tsx` calls `navigator.geolocation.getCurrentPosition`
+  on load. In a headless browser context with no geolocation permission decision, this can
+  leave requests outstanding indefinitely. If a QA/automation agent's browser session hangs
+  (stuck mid tool-call for a very long time with no reply), this is the likely cause. Fix:
+  create the Playwright context with `{ permissions: ['geolocation'], geolocation: { latitude, longitude } }`
+  so geolocation resolves immediately, and prefer `waitUntil: 'domcontentloaded'` over
+  `'networkidle'` for page.goto, with explicit per-action timeouts.
