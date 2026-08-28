@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export type Unit = 'C' | 'F';
 
@@ -21,16 +21,12 @@ const unitSlice = createSlice({
   name: 'unit',
   initialState,
   reducers: {
-    setUnit(state, action: { payload: Unit }) {
+    setUnit(state, action: PayloadAction<Unit>) {
       state.unit = action.payload;
-      localStorage.setItem(UNIT_LS_KEY, state.unit);
-    },
-    toggleUnit(state) {
-      state.unit = state.unit === 'C' ? 'F' : 'C';
       localStorage.setItem(UNIT_LS_KEY, state.unit);
     },
   },
 });
 
 export default unitSlice.reducer;
-export const { setUnit, toggleUnit } = unitSlice.actions;
+export const { setUnit } = unitSlice.actions;
