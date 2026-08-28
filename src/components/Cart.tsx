@@ -1,7 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import getIcon from '../helpers/getIcon';
-import { useAppDispatch } from '../hooks/hooks';
+import { convertTemp } from '../helpers/convertTemp';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { addWeather } from '../store/slices/savedSlice';
 import { WeatherResponse } from '../types';
 import { IsSaved } from './IsSaved';
@@ -15,6 +16,7 @@ type ICart = {
 const Cart: React.FC<ICart> = ({ name, index }) => {
   const [weather, setWeather] = React.useState<WeatherResponse | null>(null);
   const dispatch = useAppDispatch();
+  const { unit } = useAppSelector((state) => state.unit);
   React.useEffect(() => {
     axios
       .get(
@@ -38,7 +40,7 @@ const Cart: React.FC<ICart> = ({ name, index }) => {
       </div>
       <span className='mb-1'>
         <span className='font-semibold'>Temperature:</span>{' '}
-        {Math.ceil(weather?.main.temp as number)}°C
+        {convertTemp(weather?.main.temp as number, unit)}°{unit}
       </span>
       <span className='mb-1'>
         <span className='font-semibold'>Info: </span>
@@ -50,7 +52,11 @@ const Cart: React.FC<ICart> = ({ name, index }) => {
       </span>
       <span className='mb-4'>
         <span className='font-semibold'>Feels Like: </span>
-        {Math.ceil(weather?.main.feels_like ? weather?.main.feels_like : 0)}°C
+        {convertTemp(
+          weather?.main.feels_like ? weather?.main.feels_like : 0,
+          unit
+        )}
+        °{unit}
       </span>
       <div className='flex justify-between'>
         <a

@@ -37,3 +37,26 @@
   create the Playwright context with `{ permissions: ['geolocation'], geolocation: { latitude, longitude } }`
   so geolocation resolves immediately, and prefer `waitUntil: 'domcontentloaded'` over
   `'networkidle'` for page.goto, with explicit per-action timeouts.
+
+## Celsius/Fahrenheit unit toggle (2024)
+- Unit preference lives in a new redux slice `src/store/slices/unitSlice.ts`
+  (`state.unit.unit`, values `'C' | 'F'`), persisted to `localStorage['unit']`.
+  Default is `'C'` when nothing is stored. Shared across Home and Saved pages
+  since both read the same redux store — no prop drilling needed.
+- Conversion helper: `src/helpers/convertTemp.ts` — `convertTemp(celsiusValue, unit)`,
+  uses `Math.ceil` for both units (`Math.ceil(c)` for C, `Math.ceil(c*9/5+32)` for F).
+  This mirrors the app's pre-existing Celsius rounding behavior exactly.
+- UI: Header now has a two-button segmented control next to the theme toggle,
+  inside the same `.flex.space-x-3` group as the last child (so the pre-existing
+  `.flex.space-x-3 button:nth-child(3)` selector for the theme toggle in
+  `light-mode-colors.spec.ts` still resolves correctly — the unit toggle is a
+  `<div>` sibling *after* the 3 buttons, not another button among them).
+  Test hooks: `[data-testid="unit-toggle-c"]` / `[data-testid="unit-toggle-f"]`,
+  each with `aria-pressed` reflecting the active unit.
+- Toggling unit does NOT refetch weather — it only recomputes the display from
+  the already-fetched Celsius data in redux, so `mockWeatherApi` route-call
+  counts are unaffected by toggling.
+- For a sub-zero-temperature test fixture, extend `e2e/fixtures.ts`'s
+  `makeWeatherFixture`/`mockWeatherApi` to vary `main.temp`/`main.feels_like`
+  by requested city name (e.g. a `-5`°C fixture) rather than adding a second
+  mock helper.
